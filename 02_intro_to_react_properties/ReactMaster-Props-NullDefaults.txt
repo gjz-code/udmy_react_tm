@@ -1,0 +1,60 @@
+import "./styles.css";
+import CircleSvg from "./circle.svg";
+
+function Header() {
+  return (
+    <header className="App">
+      <h3>Hello CodeSandbox</h3>
+      <h2>Start editing to see some magic happen</h2>
+      <LogoContainer>
+        <Logo width={500} height={200} />
+      </LogoContainer>
+      <LogoContainer>
+        <img src="/Assets/ReactIcon.png" />
+      </LogoContainer>
+    </header>
+  );
+}
+
+function LogoContainer({ children }) {
+  return (
+    <>
+      <div>Copyright My Company</div>
+      {children}
+    </>
+  );
+}
+
+function Logo(props) {
+  const { width = 400, height } = props;
+
+  return (
+    <>
+      <img
+        src={CircleSvg}
+        alt="My lovely circle"
+        width={width || 300}
+        height={height}
+      />
+    </>
+  );
+}
+
+function Footer() {
+  return (
+    <footer>
+      <div>This is the footer</div>
+    </footer>
+  );
+}
+
+const App = () => {
+  return (
+    <>
+      <Header />
+      <Footer />
+    </>
+  );
+};
+
+export default App;

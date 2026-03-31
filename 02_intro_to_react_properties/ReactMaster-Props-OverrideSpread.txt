@@ -1,0 +1,56 @@
+import "./styles.css";
+import CircleSvg from "./circle.svg";
+
+function Header() {
+  const dimensions = { width: 300, height: 300 };
+  return (
+    <header className="App">
+      <h3>Hello CodeSandbox</h3>
+      <h2>Start editing to see some magic happen</h2>
+      <LogoCircle {...dimensions} />
+    </header>
+  );
+}
+
+function LogoCircle({ dimensions }) {
+  const logoDimensions = { ...dimensions, height: 500 };
+  return (
+    <>
+      <div>{logoDimensions.height}</div>
+      <Logo width={logoDimensions.width} height={logoDimensions.height} />
+    </>
+  );
+}
+
+function Logo({ width, height }) {
+  return (
+    <>
+      <div>logo height: {height}</div>
+      <img
+        src={CircleSvg}
+        alt="My lovely circle"
+        width={width}
+        height={height}
+      />
+    </>
+  );
+}
+
+function Footer() {
+  return (
+    <footer>
+      <div>This is the footer</div>
+    </footer>
+  );
+}
+
+const App = () => {
+  return (
+    <>
+      <Header />
+      <Footer />
+    </>
+  );
+};
+
+export default App;
