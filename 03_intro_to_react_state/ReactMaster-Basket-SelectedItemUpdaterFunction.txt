@@ -1,0 +1,107 @@
+import { useState } from "react";
+import "./styles.css";
+
+function Header() {
+  return <header className="App"></header>;
+}
+
+function MainContainer() {
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [numberItems, setNumberItems] = useState(0);
+
+  function onSelectedItem(item) {
+    setSelectedItem((preSelectedItem) => {
+      if (selectedItem?.id === item.id) {
+        return { ...preSelectedItem, quantity: preSelectedItem.quantity + 1 };
+      } else {
+        return { ...item, quantity: 1 };
+      }
+    });
+
+    setNumberItems(numberItems + 1);
+  }
+
+  return (
+    <>
+      <Basket selectedItem={selectedItem} numberItems={numberItems} />
+      <ProductsContainer onSelectedItem={onSelectedItem} />
+    </>
+  );
+}
+
+function Basket({ selectedItem, numberItems }) {
+  return (
+    <div>
+      <h4>Number of Items: {numberItems}</h4>
+      <h4>
+          {selectedItem
+            ? `You selected ${selectedItem.name} with id ${selectedItem.id} with a quantity of ${selectedItem.quantity}`
+            : "Basket is empty"}
+      </h4>
+    </div>
+  );
+}
+
+function ProductsContainer({ onSelectedItem }) {
+  const items = [
+    { id: 1, name: "Apples" },
+    { id: 2, name: "Bananas" },
+    { id: 3, name: "Cherries" },
+  ];
+
+  return <Products items={items} onClick={onSelectedItem} />;
+}
+
+function Products({ items, onClick }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.id} onClick={() => onClick(item)}>
+          {item.name}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function LogoContainer({ children }) {
+  return (
+    <>
+      <div>Copyright My Company</div>
+      {children}
+    </>
+  );
+}
+
+function Logo({ dimensions }) {
+  return (
+    <>
+      <img
+        src={CircleSvg}
+        alt="My lovely circle"
+        width={dimensions.width}
+        height={dimensions.height}
+      />
+    </>
+  );
+}
+
+function Footer() {
+  return (
+    <footer>
+      <div>This is the footer</div>
+    </footer>
+  );
+}
+
+const App = () => {
+  return (
+    <>
+      <Header />
+      <MainContainer />
+      <Footer />
+    </>
+  );
+};
+
+export default App;

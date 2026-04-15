@@ -1,0 +1,152 @@
+import { useState } from "react";
+import "./styles.css";
+
+function Header() {
+  return <header className="App"></header>;
+}
+
+function MainContainer() {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [stage, setStage] = useState("Products");
+
+  function onSelectedItem(item) {
+    const existingItem = selectedItems.find((i) => i.id == item.id);
+
+    let newItems;
+
+    if (existingItem) {
+      newItems = selectedItems.map((i) =>
+        i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+      );
+    } else {
+      newItems = [...selectedItems, { ...item, quantity: 1 }];
+    }
+    setSelectedItems(newItems);
+  }
+
+  function onDeleteItem(id) {
+    setSelectedItems(selectedItems.filter((i) => i.id !== id));
+  }
+
+  return (
+    <>
+      {stage === "Basket" && (
+        <Basket
+          selectedItems={selectedItems}
+          onDeleteItem={onDeleteItem}
+          onStageChange={(s) => setStage(s)}
+        />
+      )}
+      {stage === "Checkout" && <Checkout />}
+      {stage === "Products" && (
+        <ProductsContainer
+          onSelectedItem={onSelectedItem}
+          onStageChange={(s) => setStage(s)}
+        />
+      )}
+    </>
+  );
+}
+
+function Basket({ selectedItems, onDeleteItem, onStageChange }) {
+  return (
+    <div>
+      <h4>Number of Items: {selectedItems.length}</h4>
+      <h4>
+        <ul>
+          {selectedItems.map((item) => {
+            return (
+              <li key={item.id}>
+                {item.quantity} of {item.name}
+                <button onClick={() => onDeleteItem(item.id)}>Delete</button>
+              </li>
+            );
+          })}
+        </ul>
+      </h4>
+      <button onClick={() => onStageChange("Checkout")}>Go to Checkout</button>
+    </div>
+  );
+}
+
+function Checkout() {
+  return (
+    <div>
+      <h4>Checkout</h4>
+    </div>
+  );
+}
+
+function ProductsContainer({ onSelectedItem, onStageChange }) {
+  const items = [
+    { id: 1, name: "Apples" },
+    { id: 2, name: "Bananas" },
+    { id: 3, name: "Cherries" },
+  ];
+
+  return (
+    <Products
+      items={items}
+      onClick={onSelectedItem}
+      onStageChange={onStageChange}
+    />
+  );
+}
+
+function Products({ items, onClick, onStageChange }) {
+  return (
+    <>
+      <h4>Products</h4>
+      <ul>
+        {items.map((item) => (
+          <li key={item.id} onClick={() => onClick(item)}>
+            {item.name}
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => onStageChange("Basket")}>Go to Basket</button>
+    </>
+  );
+}
+
+function LogoContainer({ children }) {
+  return (
+    <>
+      <div>Copyright My Company</div>
+      {children}
+    </>
+  );
+}
+
+function Logo({ dimensions }) {
+  return (
+    <>
+      <img
+        src={CircleSvg}
+        alt="My lovely circle"
+        width={dimensions.width}
+        height={dimensions.height}
+      />
+    </>
+  );
+}
+
+function Footer() {
+  return (
+    <footer>
+      <div>This is the footer</div>
+    </footer>
+  );
+}
+
+const App = () => {
+  return (
+    <>
+      <Header />
+      <MainContainer />
+      <Footer />
+    </>
+  );
+};
+
+export default App;

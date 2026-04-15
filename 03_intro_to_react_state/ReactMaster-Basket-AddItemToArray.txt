@@ -1,0 +1,100 @@
+import { useState } from "react";
+import "./styles.css";
+
+function Header() {
+  return <header className="App"></header>;
+}
+
+function MainContainer() {
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  function onSelectedItem(item) {
+    setSelectedItems([...selectedItems, item]);
+  }
+
+  return (
+    <>
+      <Basket selectedItems={selectedItems} />
+      <ProductsContainer onSelectedItem={onSelectedItem} />
+    </>
+  );
+}
+
+function Basket({ selectedItems }) {
+  return (
+    <div>
+      <h4>Number of Items: {selectedItems.length}</h4>
+      <h4>
+        <ul>
+          {selectedItems.map((item) => {
+            return <li key={item.id}>{item.name}</li>;
+          })}
+        </ul>
+      </h4>
+    </div>
+  );
+}
+
+function ProductsContainer({ onSelectedItem }) {
+  const items = [
+    { id: 1, name: "Apples" },
+    { id: 2, name: "Bananas" },
+    { id: 3, name: "Cherries" },
+  ];
+
+  return <Products items={items} onClick={onSelectedItem} />;
+}
+
+function Products({ items, onClick }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.id} onClick={() => onClick(item)}>
+          {item.name}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function LogoContainer({ children }) {
+  return (
+    <>
+      <div>Copyright My Company</div>
+      {children}
+    </>
+  );
+}
+
+function Logo({ dimensions }) {
+  return (
+    <>
+      <img
+        src={CircleSvg}
+        alt="My lovely circle"
+        width={dimensions.width}
+        height={dimensions.height}
+      />
+    </>
+  );
+}
+
+function Footer() {
+  return (
+    <footer>
+      <div>This is the footer</div>
+    </footer>
+  );
+}
+
+const App = () => {
+  return (
+    <>
+      <Header />
+      <MainContainer />
+      <Footer />
+    </>
+  );
+};
+
+export default App;
